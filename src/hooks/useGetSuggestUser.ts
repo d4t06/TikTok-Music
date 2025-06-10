@@ -4,7 +4,7 @@ export default function useGetSuggestUser() {
 	const { setIsFetching, setUser, setPage } = useSuggestUserContext();
 
 	type Response = {
-		data: User[];
+		data: Song[];
 	};
 
 	const getSuggestUser = async (page: number) => {

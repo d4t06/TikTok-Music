@@ -1,10 +1,10 @@
-import VideoList from "./components/VideoList";
+import SongList from "./components/SongList";
 import SuggerUserProvider from "./stores/VideoStore";
 
 function App() {
   return (
     <SuggerUserProvider>
-      <VideoList />
+      <SongList />
     </SuggerUserProvider>
   );
 }
