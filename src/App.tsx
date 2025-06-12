@@ -1,11 +1,11 @@
 import SongList from "./components/SongList";
-import SuggerUserProvider from "./stores/VideoStore";
+import CurrrentIndexProvider from "./stores/global/CurrentIndex";
 
 function App() {
   return (
-    <SuggerUserProvider>
+    <CurrrentIndexProvider>
       <SongList />
-    </SuggerUserProvider>
+    </CurrrentIndexProvider>
   );
 }
 

@@ -6,17 +6,36 @@ import {
 	type ReactNode,
 } from "react";
 
-type Status = "playing" | "paused" | "waiting" | "error" | "loading-data";
+type Status = "playing" | "paused" | "error" | "loading" | "idle";
+
+export type SongControlRef = {
+	pause: () => void;
+	play: () => void;
+	handlePlayPause: () => void;
+};
 
 function usePlayer() {
-	const [status, setStatus] = useState<Status>("loading-data");
+	const [status, setStatus] = useState<Status>("idle");
+	const controlRef = useRef<SongControlRef>(null);
+	const [lyrics, setLyrics] = useState<Lyric[]>([]);
 
-	const statusRef = useRef<Status>("loading-data");
+	const [canPlay, setCanPlay] = useState(false);
+
+	const statusRef = useRef<Status>("idle");
+	const shouldGetLyric = useRef(true);
+	const shouldPlayAfterLoaded = useRef(true);
 
 	return {
 		status,
 		setStatus,
 		statusRef,
+		controlRef,
+		canPlay,
+		setCanPlay,
+		lyrics,
+		setLyrics,
+		shouldGetLyric,
+		shouldPlayAfterLoaded,
 	};
 }
 

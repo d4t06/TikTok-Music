@@ -2,7 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
-
 svg {
   display: block;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+
+.mask-vertical {
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    hsla(0, 0%, 100%, 0),
+    hsla(0, 0%, 100%, 0.8) 10%,
+    #fff 25%,
+    #fff 75%,
+    hsla(0, 0%, 100%, 0.8) 90%,
+    hsla(0, 0%, 100%, 0)
+  );
+}
+
+.disable,
+button[disabled] {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.translate-3d-0 {
+  transform: translate3d(0, 0, 0);
 }

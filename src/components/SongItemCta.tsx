@@ -2,21 +2,15 @@ import {
 	ChatBubbleBottomCenterIcon,
 	HeartIcon,
 } from "@heroicons/react/24/outline";
-import type { Ref } from "react";
 
-type Props = {
-	containerRef: Ref<HTMLDivElement>;
-};
-
-export default function SongItemCta({ containerRef }: Props) {
+export default function SongItemCta() {
 	return (
 		<div
-			ref={containerRef}
-			className="flex flex-col
-			space-y-4
+			className="flex 
+			space-x-2
 			[&_button]:rounded-full
 			[&_button]:p-2.5
-			[&_button]:bg-black/10
+			[&_button]:bg-white/10
 			[&_div]:flex-col
 			[&_div]:flex
 			[&_span]:text-center
@@ -27,13 +21,11 @@ export default function SongItemCta({ containerRef }: Props) {
 				<button>
 					<HeartIcon className="w-6" />
 				</button>
-				<span>421</span>
 			</div>
 			<div>
 				<button>
 					<ChatBubbleBottomCenterIcon className="w-6" />
 				</button>
-				<span>41</span>
 			</div>
 		</div>
 	);

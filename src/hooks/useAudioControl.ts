@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type RefObject } from "react";
+import { useEffect, type RefObject } from "react";
 import { getLinearBg } from "../utils/appHelper";
 import { usePlayerContext } from "../stores/Player";
 
@@ -11,9 +11,6 @@ type Props = {
 
 export default function useAudioControl({ audioEle, progressLineRef }: Props) {
   const { status, setStatus, statusRef } = usePlayerContext();
-  // const [status, setStatus] = useState<Status>("paused");
-
-  // const statusRef = useRef<Status>(status);
 
   const play = () => {
     try {
@@ -38,43 +35,26 @@ export default function useAudioControl({ audioEle, progressLineRef }: Props) {
     setStatus("paused");
   };
 
-  const handleError = () => {
-    setStatus("error");
-  };
-
-  const updateProgress = (progress?: number) => {
+  const updateProgress = (time?: number) => {
     if (!audioEle) return;
 
-    const _progress = +(
-      progress || (audioEle.currentTime / audioEle.duration) * 100
-    ).toFixed(1);
+    const _time = time || audioEle.currentTime;
+
+    const progress = +((_time / audioEle.duration) * 100).toFixed(1);
 
     if (progressLineRef?.current)
-      progressLineRef.current.style.background = getLinearBg(
-        "#cd1818",
-        _progress,
-      );
+      progressLineRef.current.style.background = getLinearBg("#fff", progress);
   };
 
   const handleTimeUpdate = () => {
-    const currentTime = audioEle.currentTime;
-    const ratio = currentTime / (audioEle.duration / 100);
-
-    updateProgress(+ratio.toFixed(1));
+    updateProgress();
   };
 
   const seek = (time: number) => {
     audioEle.currentTime = time;
-    updateProgress();
+    updateProgress(time);
 
     if (status !== "playing") play();
-  };
-
-  const forward = (second: number) => {
-    audioEle.currentTime = audioEle.currentTime + second;
-  };
-  const backward = (second: number) => {
-    audioEle.currentTime = audioEle.currentTime - second;
   };
 
   const handleSeek = (e: MouseEvent) => {
@@ -87,8 +67,7 @@ export default function useAudioControl({ audioEle, progressLineRef }: Props) {
       const lengthRatio = length / progressLineRef.current!.offsetWidth;
       const newSeekTime = Math.round(lengthRatio * audioEle.duration);
 
-      updateProgress(newSeekTime);
-      audioEle.currentTime = newSeekTime;
+      seek(newSeekTime);
     }
   };
 
@@ -103,7 +82,6 @@ export default function useAudioControl({ audioEle, progressLineRef }: Props) {
     audioEle.addEventListener("pause", handlePaused);
     audioEle.addEventListener("loadeddata", handleLoaded);
     audioEle.addEventListener("playing", handlePlaying);
-    audioEle.addEventListener("error", handleError);
 
     if (progressLineRef?.current) {
       audioEle.addEventListener("timeupdate", handleTimeUpdate);
@@ -115,14 +93,13 @@ export default function useAudioControl({ audioEle, progressLineRef }: Props) {
 
       audioEle.removeEventListener("pause", handlePaused);
       audioEle.removeEventListener("playing", handlePlaying);
-      audioEle.removeEventListener("error", handleError);
 
       if (progressLineRef?.current) {
         audioEle.removeEventListener("timeupdate", handleTimeUpdate);
         progressLineRef?.current.removeEventListener("click", handleSeek);
       }
     };
-  }, [audioEle]);
+  }, []);
 
   useEffect(() => {
     statusRef.current = status;
@@ -133,9 +110,5 @@ export default function useAudioControl({ audioEle, progressLineRef }: Props) {
     pause,
     seek,
     handlePlayPause,
-    status,
-    forward,
-    backward,
-    statusRef,
   };
 }

@@ -23,3 +23,29 @@ type Song = {
   updated_at: Timestamp;
   created_at: Timestamp;
 };
+
+type SongLyric = {
+  id: string;
+  base: string;
+  lyrics: Lyric[];
+};
+
+type Lyric = {
+  start: number;
+  end: number;
+  text: string;
+  tune: LyricTune;
+  cut: number[][];
+};
+
+type LyricTune = {
+  grow: number[];
+  end: number;
+  start: number;
+};
+
+type SongLyricSchema = Omit<SongLyric, "lyrics" | "id"> & {
+  lyrics: string;
+};
+
+type LyricStatus = "active" | "done" | "coming";

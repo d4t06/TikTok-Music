@@ -1,16 +1,10 @@
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import SongItem from "./SongItem";
-// import useWheel from "../hooks/useWheel";
-// import useWheel2 from "../hooks/useWheel2";
-// import SongItemSkeleton from "./SongItemSkeleton";
 import { SONGS } from "../contants/songs";
+import { uesCurrentIndexContext } from "../stores/global/CurrentIndex";
 
 export default function VideoList() {
-	// const { getSuggestUser } = useGetSuggestUser();
-
-	// useWheel2();
-
-	// const ranEffect = useRef(false);
+	const { setCurrentIndex } = uesCurrentIndexContext();
 
 	const intObserver = useRef<IntersectionObserver | null>(null);
 
@@ -19,7 +13,7 @@ export default function VideoList() {
 
 		intObserver.current = new IntersectionObserver((entries) => {
 			if (entries[0].isIntersecting) {
-				// getSuggestUser(page + 1);
+				console.log("get song ");
 			}
 		});
 
@@ -31,33 +25,26 @@ export default function VideoList() {
 			if (SONGS.length === index + 1) {
 				return (
 					<SongItem
-						index={index + 1}
+						index={index}
 						key={index}
 						ref={lastElementRef}
 						song={item}
 					/>
 				);
 			}
-			return <SongItem index={index + 1} key={index} song={item} />;
+			return <SongItem index={index} key={index} song={item} />;
 		});
 	}, []);
 
-	// const skeletons = useMemo(
-	// 	() => [...Array(5).keys()].map((i) => <SongItemSkeleton key={i} />),
-	// 	[],
-	// );
-
-	// useEffect(() => {
-	// 	if (!ranEffect.current) {
-	// 		ranEffect.current = true;
-	// 		if (!users.length) getSuggestUser(1);
-	// 	}
-	// }, []);
+	useEffect(() => {
+		setTimeout(() => {
+			setCurrentIndex(0);
+		}, 1000);
+	}, []);
 
 	return (
-		<div className="main-container">
+		<div className="main-container snap-y snap-mandatory fixed inset-0 overflow-auto">
 			{content}
-			{/*{isFetching && skeletons}*/}
 		</div>
 	);
 }
