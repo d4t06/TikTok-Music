@@ -8,9 +8,13 @@ import {
 
 function useCurrentIndex() {
 	const [currentIndex, setCurrentIndex] = useState(999);
+	const [isOpenComment, setIsOpenComment] = useState(false);
+
 	const firstTimeSongLoaded = useRef(true);
 
 	return {
+		isOpenComment,
+		setIsOpenComment,
 		currentIndex,
 		setCurrentIndex,
 		firstTimeSongLoaded,

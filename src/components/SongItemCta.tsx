@@ -2,8 +2,12 @@ import {
 	ChatBubbleBottomCenterIcon,
 	HeartIcon,
 } from "@heroicons/react/24/outline";
+import { uesCurrentIndexContext } from "../stores/global/CurrentIndex";
 
 export default function SongItemCta() {
+
+	const {setIsOpenComment} = uesCurrentIndexContext()
+
 	return (
 		<div
 			className="flex 
@@ -23,7 +27,7 @@ export default function SongItemCta() {
 				</button>
 			</div>
 			<div>
-				<button>
+				<button onClick={() => setIsOpenComment(true)}>
 					<ChatBubbleBottomCenterIcon className="w-6" />
 				</button>
 			</div>

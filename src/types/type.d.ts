@@ -49,3 +49,20 @@ type SongLyricSchema = Omit<SongLyric, "lyrics" | "id"> & {
 };
 
 type LyricStatus = "active" | "done" | "coming";
+
+
+
+type UserComment = {
+  id: string;
+  user_email: string;
+  user_name: string;
+  user_image_url: string;
+  text: string;
+  target_id: string;
+  comment_id: string;
+  like: number;
+  reply: number;
+  replies: UserComment[];
+  updated_at: Timestamp;
+  created_at: Timestamp;
+};

@@ -10,6 +10,7 @@ import PlayerProvider, { usePlayerContext } from "../stores/Player";
 import { Blurhash } from "react-blurhash";
 import SongLyric from "./SongLyric";
 import useSongItemEffect from "../hooks/useSongItemEffect";
+import { uesCurrentIndexContext } from "../stores/global/CurrentIndex";
 
 type Props = {
 	song: Song;
@@ -87,6 +88,8 @@ function Content({
 }
 
 function Wrapper(props: Props, ref: Ref<HTMLDivElement>) {
+	const { isOpenComment } = uesCurrentIndexContext();
+
 	const innerRef = useRef<HTMLDivElement | null>(null);
 
 	useImperativeHandle(ref, () => innerRef.current!);
@@ -95,12 +98,16 @@ function Wrapper(props: Props, ref: Ref<HTMLDivElement>) {
 		<>
 			<div
 				data-index={props.index}
-				className="video-item h-full w-full p-4 snap-center sm:flex justify-center"
+				className="relative h-full min-h-[360px]  snap-center"
 				ref={innerRef}
 			>
-				<PlayerProvider>
-					<Content {...props} songItemRef={innerRef} />
-				</PlayerProvider>
+				<div
+					className={`absolute h-full p-4 sm:flex justify-center ${isOpenComment ? "lg:left-[100px] w-full lg:w-auto " : "left-0 w-full"}`}
+				>
+					<PlayerProvider>
+						<Content {...props} songItemRef={innerRef} />
+					</PlayerProvider>
+				</div>
 			</div>
 		</>
 	);
